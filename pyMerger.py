@@ -12,9 +12,10 @@ mylist = os.listdir(path);
 merger = PdfWriter()
 
 for pdf in mylist:
-    currentFile = os.path.join(path, pdf)
-    print("Appending " +currentFile+ " to the merged pdf")
-    merger.append(r""+currentFile)
+    if pdf.lower().endswith('.pdf'):
+        currentFile = os.path.join(path, pdf)
+        print("Appending " +currentFile+ " to the merged pdf")
+        merger.append(r""+currentFile)
 
 merger.write(os.path.join(path,"mergedpdf.pdf"))
 
