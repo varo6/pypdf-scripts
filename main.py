@@ -1,2 +1,5 @@
 from src import PyMerger
-PyMerger()
+try:
+    merger = PyMerger()
+except FileNotFoundError as e:
+    print("Error:", e)
