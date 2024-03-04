@@ -1,6 +1,6 @@
 # pypdf-scripts 
 
-A collection of scripts for pdf daily usage based on pypdf. CLI is needed, code-free . Automatically merge all your pdfs.   
+A collection of scripts for pdf daily usage based on pypdf. CLI is needed, code-free. Automatically merge all your pdfs.   
 
 ## Installation & Usage
 
