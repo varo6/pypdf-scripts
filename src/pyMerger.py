@@ -45,5 +45,8 @@ class PyMerger:
 
         # Check if mergedpdf was created and if it's not null
         if currentFile is not None:
-            print("Merge completed!")
+            print ("Merge Completed!")
         merger.close()
+
+    def to_string(self):
+        return "Merge Completed!"
