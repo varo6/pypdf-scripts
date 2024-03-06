@@ -4,10 +4,11 @@ A collection of scripts for pdf daily usage based on pypdf. CLI is needed,
 
 ## Installation & Usage
 
-Dependencies are installed manually at the moment. Only python, pip and pypdf are needed.
+Dependencies are installed manually at the moment. Python, pip and pypdf are needed. Also flet for graphical interface.
 
 ```python
 pip install pypdf
+pip install flet
 ```
 
 Download the source code (Manually or using git) and locate the folder on CLI
