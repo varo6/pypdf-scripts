@@ -3,10 +3,13 @@ from pypdf import PdfWriter
 
 
 class PyMerger:
-    def __init__(self):
+    def __init__(self, auto_merge):
         print("*** Start PyMerger ***")
 
+        auto_merge() if auto_merge else manual_merge()
         # Get current path as string, head to the pdfs folder
+
+    def auto_merge():
         parent_path = os.path.abspath(
             os.path.join(os.path.dirname(__file__), '..'))
         pdfs_path = os.path.join(parent_path, "pdfs")
@@ -47,6 +50,10 @@ class PyMerger:
         if currentFile is not None:
             print ("Merge Completed!")
         merger.close()
+
+
+
+
 
     def to_string(self):
         return "Merge Completed!"
