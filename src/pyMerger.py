@@ -7,14 +7,17 @@ class PyMerger:
     os.path.join(os.path.dirname(__file__), '..'))
     pdfs_path = os.path.join(parent_path, "pdfs")
     results_path = os.path.join(pdfs_path, "saved results")
+    found_pdfs = False
 
     @staticmethod
     def merge(mylist):
+
+        found_pdfs = PyMerger.found_pdfs
         # Merge pdf files
         merger = PdfWriter()
         counter = 0 
         results_path = PyMerger.results_path
-        print("Hoola, myulist: " +str(mylist[0]))
+        print("The object is " +str(mylist[0]))
         # Add all pdf files to the PdfWriter() Object
         for pdf in mylist:
             if pdf.lower().endswith('.pdf'):
@@ -49,21 +52,17 @@ class PyMerger:
     def to_string(self):
         return "Merge Completed!"
     
-    def __init__(self):
 
-        print("*** Start auto PyMerger ***")
-        # Get current path as string, head to the pdfs folder
-        parent_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), '..'))
-        pdfs_path = os.path.join(parent_path, "pdfs")
-        results_path = os.path.join(pdfs_path, "saved results")
-        
+    def __init__(self, inputlist = None):
 
-        # Get array of files located in the path
-        mylist = os.listdir(pdfs_path)
-        found_pdfs = False
-        PyMerger.merge(mylist)
+        if inputlist is not None:
 
-    def __init__(self, inputlist):
-        print("Manual merge chosen")
-        PyMerger.merge(inputlist)
+            print("Manual merge chosen")
+            PyMerger.merge(inputlist)
+        else:
+            # Get array of files located in the path
+            mylist = os.listdir(PyMerger.pdfs_path)
+            inputlist = list(map(lambda pdf: os.path.join(PyMerger.pdfs_path, pdf) , mylist ))
+            print(str(inputlist))
+            PyMerger.merge(inputlist)
+
