@@ -1,37 +1,32 @@
 import os
 from pypdf import PdfWriter
 
-
 class PyMerger:
-    def __init__(self, auto_merge):
-        print("*** Start PyMerger ***")
 
-        auto_merge() if auto_merge else manual_merge()
-        # Get current path as string, head to the pdfs folder
+    parent_path = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..'))
+    pdfs_path = os.path.join(parent_path, "pdfs")
+    results_path = os.path.join(pdfs_path, "saved results")
 
-    def auto_merge():
-        parent_path = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), '..'))
-        pdfs_path = os.path.join(parent_path, "pdfs")
-        results_path = os.path.join(pdfs_path, "saved results")
-        counter = 0
-
-        # Get array of files located in the path
-        mylist = os.listdir(pdfs_path)
-        found_pdfs = False
+    @staticmethod
+    def merge(mylist):
         # Merge pdf files
         merger = PdfWriter()
-
+        counter = 0 
+        results_path = PyMerger.results_path
+        print("Hoola, myulist: " +str(mylist[0]))
         # Add all pdf files to the PdfWriter() Object
         for pdf in mylist:
             if pdf.lower().endswith('.pdf'):
                 found_pdfs = True
-                currentFile = os.path.join(pdfs_path, pdf)
+                # currentFile = os.path.join(pdfs_path, pdf)
+                currentFile = pdf
                 print("Appending " + currentFile + " to the merged pdf")
                 merger.append(r""+currentFile)
 
         if not found_pdfs:
             raise FileNotFoundError("Error: La carpeta de pdfs está vacía")
+
         # Check if mergedpdf exists and create the new pdf
         mylist = os.listdir(results_path)
         for pdf in mylist:
@@ -51,9 +46,24 @@ class PyMerger:
             print ("Merge Completed!")
         merger.close()
 
-
-
-
-
     def to_string(self):
         return "Merge Completed!"
+    
+    def __init__(self):
+
+        print("*** Start auto PyMerger ***")
+        # Get current path as string, head to the pdfs folder
+        parent_path = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), '..'))
+        pdfs_path = os.path.join(parent_path, "pdfs")
+        results_path = os.path.join(pdfs_path, "saved results")
+        
+
+        # Get array of files located in the path
+        mylist = os.listdir(pdfs_path)
+        found_pdfs = False
+        PyMerger.merge(mylist)
+
+    def __init__(self, inputlist):
+        print("Manual merge chosen")
+        PyMerger.merge(inputlist)
