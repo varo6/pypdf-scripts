@@ -1,6 +1,8 @@
 import os
 from src import PyMerger
 from src import pyextract
+from src import pyscanner
+
 def pick_files():
     # Aquí podrías implementar una forma de seleccionar archivos sin GUI
     # Por ejemplo, podrías pedir al usuario que introduzca las rutas de los archivos
@@ -32,8 +34,9 @@ def main():
         print("\n1. Merge Manual")
         print("2. Auto Merge")
         print("3. Exportar páginas")
-        print("4. Salir")
-        choice = input("Elige una opción (1-4): ")
+        print("4. Escanear a texto")
+        print("5. Salir")
+        choice = input("Elige una opción (1-5): ")
 
         if choice == '1':
             manual_merge()
@@ -42,6 +45,8 @@ def main():
         elif choice == '3':
             pyextract.extract_pdf()
         elif choice == '4':
+            pyscanner.scan_to_text()
+        elif choice == '5': 
             break
         else:
             print("Opción no válida. Intenta de nuevo.")
