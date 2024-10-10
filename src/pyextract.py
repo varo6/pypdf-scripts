@@ -1,5 +1,4 @@
 from pypdf import PdfReader, PdfWriter
-from .methods import get_filename, get_npages
 
 def make_pdfreader(fname):
         reader = PdfReader(fname)
@@ -11,18 +10,17 @@ def make_pdfwriter():
     return writer
 
 
-def extract_pages():
-    reader = make_pdfreader(get_filename())
+def extract_pages(name: str, pages: list[int]):
+    reader = make_pdfreader(name)
     writer = make_pdfwriter()
-    pages: list[int] = get_npages()
     for page_num in pages:  # Pages 10 to 20 (inclusive)
-        page = reader.pages[page_num]
+        page = reader.pages[page_num-1]
         writer.add_page(page)
     return writer
 
-def extract_pdf():
-    writer = extract_pages()
-    with open ("result.pdf", "wb") as output_pdf:
+def extract_pdf(name: str, pages, output: str):
+    print(f"Extracting {name} for pages {pages}")
+    writer = extract_pages(name, pages)
+    with open (f"{output}.pdf", "wb") as output_pdf:
         writer.write(output_pdf)
 
-print("Pages 10-20 have been extracted successfully!")

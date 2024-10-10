@@ -1,55 +1,42 @@
-import os
-from src import PyMerger
-from src import pyextract
-from src import pyscanner
+import argparse
+import argcomplete
+from src import methods, pyextract, pyscanner
 
-def pick_files():
-    # Aquí podrías implementar una forma de seleccionar archivos sin GUI
-    # Por ejemplo, podrías pedir al usuario que introduzca las rutas de los archivos
-    paths = input("Introduce las rutas de los archivos separadas por comas: ").split(',')
-    return [path.strip() for path in paths]
+options = {
+    "extract_pdf": pyextract.extract_pdf,
+    "scan_pdf": pyscanner.scan_to_text,
+}
 
-def auto_merge():
-    try:
-        merger = PyMerger()
-        print("Auto merge iniciado")
-        # Aquí irían las operaciones de auto merge
-    except FileNotFoundError as e:
-        print("Error:", e)
+# sysarguments parsers
 
-def manual_merge():
-    try:
-        files = pick_files()
-        if files:
-            merger = PyMerger(files)
-            print("Merge manual iniciado con los archivos:", files)
-            # Aquí irían las operaciones de merge manual
-        else:
-            print("No se seleccionaron archivos")
-    except FileNotFoundError as e:
-        print("Error:", e)
+def create_parser():
+    parser = argparse.ArgumentParser(description="PyPDF Scripts")
+    parser.add_argument(
+        "operation", choices=options.keys(), help="Operation to perform"
+    )
+    parser.add_argument(
+        "filename",
+        nargs="*",
+        default="example.pdf",
+        help="Route of the file to process.",
+    )  # Optional
+    parser.add_argument("-p","--pages", nargs="?", type=methods.pages_args, default="1-3", help="Number of pages")
+    parser.add_argument(
+        "-o", "--output", nargs="?", default="output", help="Output file"
+    )
+    argcomplete.autocomplete(parser)
+    return parser
+
 
 def main():
-    while True:
-        print("\n1. Merge Manual")
-        print("2. Auto Merge")
-        print("3. Exportar páginas")
-        print("4. Escanear a texto")
-        print("5. Salir")
-        choice = input("Elige una opción (1-5): ")
 
-        if choice == '1':
-            manual_merge()
-        elif choice == '2':
-            auto_merge()
-        elif choice == '3':
-            pyextract.extract_pdf()
-        elif choice == '4':
-            pyscanner.scan_to_text()
-        elif choice == '5': 
-            break
-        else:
-            print("Opción no válida. Intenta de nuevo.")
+    parser = create_parser()
+    args = parser.parse_args()
+
+    options[args.operation](
+        args.filename[0], args.pages, args.output
+    )
+
 
 if __name__ == "__main__":
     main()
